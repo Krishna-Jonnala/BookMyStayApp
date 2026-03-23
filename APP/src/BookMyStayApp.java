@@ -80,6 +80,81 @@ class BookingService {
 
             // Confirm booking
             System.out.println("Booking successful: " + reservation);
+        for (Reservation r : reservations) {
+            System.out.println(r);
+            roomSummary.put(r.getRoomType(), roomSummary.getOrDefault(r.getRoomType(), 0) + 1);
+        for (AddOnService s : services) {
+            System.out.println("- " + s);
+            totalCost += s.getCost();
+            } else {
+                System.out.println("Booking Failed! No rooms available for: " + type);
+            }
+        for (Reservation r : bookingQueue) {
+            System.out.println(r);
+        for (String type : inventory.keySet()) {
+            if (inventory.get(type) > 0) {
+                Room r = rooms.get(type);
+                System.out.println(type + " - ₹" + r.price + " Available: " + inventory.get(type));
+            }
+import java.util.HashMap;
+import java.util.Map;
+
+
+public class BookMyStayApp {
+
+    public static void main(String[] args) {
+
+        System.out.println("====================================");
+        System.out.println("        Book My Stay System         ");
+        System.out.println("       Hotel Booking v3.1           ");
+        System.out.println("====================================");
+
+        // Initialize inventory
+        RoomInventory inventory = new RoomInventory();
+
+        // Display inventory
+        inventory.displayInventory();
+
+        // Check availability
+        int singleRooms = inventory.getAvailability("Single Room");
+        System.out.println("\nSingle Rooms Available: " + singleRooms);
+
+        // Update availability after booking
+        inventory.updateAvailability("Single Room", singleRooms - 1);
+
+        System.out.println("\nAfter booking one Single Room:");
+        inventory.displayInventory();
+    }
+}
+
+class RoomInventory {
+
+    private Map<String, Integer> inventory;
+
+    public RoomInventory() {
+
+        inventory = new HashMap<>();
+
+        inventory.put("Single Room", 5);
+        inventory.put("Double Room", 3);
+        inventory.put("Suite Room", 2);
+    }
+
+    public int getAvailability(String roomType) {
+        return inventory.getOrDefault(roomType, 0);
+    }
+
+    public void updateAvailability(String roomType, int count) {
+        inventory.put(roomType, count);
+    }
+
+    public void displayInventory() {
+
+        System.out.println("\nCurrent Room Inventory:");
+
+        for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
 
         } catch (InvalidBookingException e) {
             System.out.println("Booking failed: " + e.getMessage());
